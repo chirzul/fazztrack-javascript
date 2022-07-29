@@ -40,5 +40,5 @@ if (
   console.log(`Rata-rata = ${rataRata}
 Grade = ${grade}`);
 } else {
-  console.log("Nilai harus berupa angka mulai dari 0 - 100 !");
+  console.log("Nilai harus diisi dengan angka 0 - 100 !");
 }
