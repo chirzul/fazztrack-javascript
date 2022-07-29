@@ -1,0 +1,56 @@
+body {
+  background-image: url(task3.jpg);
+  background-size: cover;
+  font-size: 25px;
+  font-weight: 400;
+  vertical-align: baseline;
+  color: white;
+  padding-top: 53px;
+  padding-bottom: 160px;
+  line-height: 1;
+}
+.fazztrack {
+  margin: 0;
+  font-size: 36px;
+  line-height: 43.57px;
+  font-weight: 700;
+}
+.about {
+  margin-top: 63px;
+  padding-bottom: 70px;
+  font-size: 40px;
+  font-family: "Rancho", cursive;
+}
+.program {
+  margin-top: 55px;
+  padding: 36px 58px;
+  color: #2b57a7;
+  border: 5px solid #ef6807;
+}
+.benefit {
+  margin-top: 30px;
+  padding: 36px 58px;
+  color: #ef6807;
+  border: 5px solid #2b57a7;
+}
+.signup {
+  margin-top: 30px;
+  height: 60px;
+  font-weight: 700;
+  font-size: 20px;
+  color: white;
+  background-color: #ef6807;
+}
+footer {
+  margin-top: 55px;
+  padding-top: 35px;
+}
+.program,
+.benefit,
+.signup {
+  border-radius: 10px;
+}
+ul,
+ol {
+  margin-top: 20px 0 0 42px;
+}

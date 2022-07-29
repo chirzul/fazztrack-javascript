@@ -1,0 +1,56 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+h1 {
+  color: blue;
+  text-align: center;
+}
+
+h3 {
+  margin-top: 20px;
+  padding-left: 30px;
+}
+
+img {
+  width: 500px;
+  height: 500px;
+}
+
+@media only screen and (min-width: 768px) {
+  h1 {
+    font-weight: bold;
+  }
+}
+
+/*
+  2. Syntax pada CSS terdiri dari Selector, Property, dan value.
+  Selector digunakan untuk menentukan elemen HTML mana yang akan diberi styling.
+  Property yaitu bagian mana yang akan diubah dari selector.
+  Value merupakan nilai dari properti yang akan diubah.
+  Misal terdapat CSS :
+  h1 {color: blue}
+  artinya h1 akan diberi styling pada properti "color" nya dengan value "blue"
+*/
+
+/*
+  3. CSS Specificity bisa diartikan sebagai bobot yang dimiliki oleh selector pada CSS. Jika terdapat lebih dari satu CSS yang mengacu pada elemen yang sama, maka yang akan dipilih yaitu selector dengan bobot terberat. Specificity dapat dihitung dengan memberi nilai 1 pada setiap elemen HTML maupun pseudo elemen, nilai 10 pada setiap class atau pseudo class, 100 pada tiap ID, dan bernilai 1000 pada inline style.
+*/
+
+/*
+  4. Responsive website yaitu website yang dapat menyesuaikan ukuran lebar perangkat sehingga dapat terlihat bagus secara tampilan dan fungsional di semua perangkat.
+*/
+
+/*
+  5. CSS Media Queries merupakan modul CSS3 yang digunakan untuk memberikan styling berdasarkan batasan lebar layar. Media queries digunakan untuk membuat website menjadi responsive.
+*/
+
+/*
+  6. CSS Flexbox dan Grid digunakan untuk mengatur tampilan website menjadi lebih terstruktur dan rapi. Perbedaannya yaitu flex hanya mengatur elemen secara 1 dimensi horizontal / vertikal, sedangkan grid dapat digunakan untuk mengatur elemen secara dua dimansi.
+*/
+
+/*
+  7. Bootstrap merupakan framework frontend yang berfungsi untuk mendesain website responsive secara mudah dan cepat.
+*/
