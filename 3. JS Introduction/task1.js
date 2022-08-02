@@ -7,10 +7,10 @@ const nama = "Muhammad Chirzul Maula";
 const makananFavorit = ["Rendang", "Kari ayam", "Nasi Kuning"];
 const nilai = [76, 98, 80, 88, 77];
 
-// * 1. split() : Memisahkan string menjadi beberapa array berdasarkan input yg dimasukkan.
+// * 1. split() : Memisahkan string menjadi array berdasarkan input yg dimasukkan.
 console.log(nama.split(" "));
 
-// * 2. join() : Menggabungkan beberapa array menjadi satu string
+// * 2. join() : Menggabungkan array menjadi satu string
 console.log(makananFavorit.join(", "));
 
 // * 3. toLowerCase() : Mengubah string menjadi lowercase
@@ -40,5 +40,5 @@ console.log(makananFavorit);
 // * 9. reverse() : Membalikkan urutan array dimulai dari index terakhir
 console.log(makananFavorit.reverse());
 
-// * 10. max() : Mendapatkan nilai terbesar dari number
+// * 10. max() : Mendapatkan nilai terbesar dari array number
 console.log(Math.max(...nilai));

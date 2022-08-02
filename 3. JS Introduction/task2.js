@@ -22,7 +22,7 @@ const names = [
   "Penelope",
 ];
 
-const searchName = (keyword, limit = 1, callback = limitResult) => {
+const searchName = (keyword, limit = names.length, callback = limitResult) => {
   const searchResult = [];
   if (typeof keyword == "string" && typeof limit == "number" && limit > 0) {
     names.forEach((name) => {
@@ -50,4 +50,4 @@ const limitResult = (searchResult, limit) => {
   }
 };
 
-searchName("el");
+searchName("an", 3);
