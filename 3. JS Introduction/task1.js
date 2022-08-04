@@ -39,6 +39,7 @@ console.log(makananFavorit);
 
 // * 9. reverse() : Membalikkan urutan array dimulai dari index terakhir
 console.log(makananFavorit.reverse());
+console.log(nama.split("").reverse().join(""));
 
 // * 10. max() : Mendapatkan nilai terbesar dari array number
 console.log(Math.max(...nilai));

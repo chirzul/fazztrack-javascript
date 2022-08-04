@@ -1,0 +1,23 @@
+{
+  "name": "fazztrack",
+  "version": "1.0.0",
+  "description": "fazztrack's bootcamp task",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chirzul/fazztrack.git"
+  },
+  "author": "Muhammad Chirzul Maula",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chirzul/fazztrack/issues"
+  },
+  "homepage": "https://github.com/chirzul/fazztrack#readme",
+  "dependencies": {
+    "node-fetch": "^3.2.10"
+  }
+}

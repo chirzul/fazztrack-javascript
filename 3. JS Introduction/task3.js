@@ -24,8 +24,8 @@ const seleksiNilai = (nilaiAwal, nilaiAkhir, dataArray) => {
           result.push(dataArray[i]);
         }
       }
-      result.sort((a, b) => a - b);
       if (result.length > 0) {
+        result.sort((a, b) => a - b);
         console.log(result);
       } else {
         console.log("Nilai tidak ditemukan");
