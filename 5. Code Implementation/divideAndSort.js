@@ -1,7 +1,7 @@
-/**
- * * author : Muhammad Chirzul Maula
- * * deskripsi program : Fungsi sortir angka berdasarkan separator angka 0
- */
+// * Divide and sort numbers based on "0" separator.
+// *
+// * Created by Muhammad Chirzul Maula on August 5 2022.
+// * Copyright © 2022 Fazztrack. All rights reserved.
 
 const divideAndSort = (num) => {
   if (typeof num === "number") {

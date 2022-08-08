@@ -1,10 +1,10 @@
-import checkPalindrom from "./5. Code Implementation/checkPalindrom.js";
+import checkPalindrome from "./5. Code Implementation/checkPalindrome.js";
 import reverseWords from "./5. Code Implementation/reverseWords.js";
 import fazzFood from "./5. Code Implementation/fazzFood.js";
 import divideAndSort from "./5. Code Implementation/divideAndSort.js";
 
-checkPalindrom("Malam");
-checkPalindrom("siang");
+checkPalindrome("Malam");
+checkPalindrome("siang");
 
 reverseWords("Muhammad Chirzul Maula");
 

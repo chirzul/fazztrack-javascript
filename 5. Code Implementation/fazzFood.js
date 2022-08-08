@@ -1,7 +1,7 @@
-/**
- * * author : Muhammad Chirzul Maula
- * * deskripsi program : Mendapatkan harga final untuk pemesanan makanan
- */
+// * Get final price for food order.
+// *
+// * Created by Muhammad Chirzul Maula on August 5 2022.
+// * Copyright © 2022 Fazztrack. All rights reserved.
 
 const fazzFood = (price, voucher, distance, tax) => {
   const isVoucherValid =
