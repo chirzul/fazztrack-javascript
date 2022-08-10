@@ -1,0 +1,17 @@
+{
+  "name": "4.-js-introduction",
+  "version": "1.0.0",
+  "main": "task1.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Muhammad Chirzul Maula",
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.2.10"
+  },
+  "devDependencies": {},
+  "description": ""
+}
