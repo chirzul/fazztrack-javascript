@@ -40,7 +40,7 @@ ctrl.getAllMovies = async (req, res) => {
 
 ctrl.getMovieById = async (req, res) => {
   try {
-    const id_movie = parseInt(req.params.id_movie);
+    const id_movie = req.params.id_movie;
     const data = await model.getMovieById({ id_movie });
     res.status(200).send(data);
   } catch (error) {
@@ -48,9 +48,20 @@ ctrl.getMovieById = async (req, res) => {
   }
 };
 
+ctrl.searchMovie = async (req, res) => {
+  try {
+    const title = req.query.title;
+    const data = await model.searchMovie({ title });
+    res.status(200).send(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send(error);
+  }
+};
+
 ctrl.updateMovie = async (req, res) => {
   try {
-    const id_movie = parseInt(req.params.id_movie);
+    const id_movie = req.params.id_movie;
     const {
       title,
       genres,
@@ -80,7 +91,7 @@ ctrl.updateMovie = async (req, res) => {
 
 ctrl.deleteMovie = async (req, res) => {
   try {
-    const id_movie = parseInt(req.params.id_movie);
+    const id_movie = req.params.id_movie;
     const data = await model.deleteMovie({ id_movie });
     res.status(200).send(data);
   } catch (error) {
