@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 const ctrl = {}
 const model = require('../models/movies')
 
@@ -50,8 +49,8 @@ ctrl.getSortedMovies = async (req, res) => {
 
 ctrl.getMovieById = async (req, res) => {
   try {
-    const id_movie = req.params.id_movie
-    const data = await model.getMovieById({ id_movie })
+    const movieId = req.params.id_movie
+    const data = await model.getMovieById({ movieId })
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -71,7 +70,7 @@ ctrl.searchMovie = async (req, res) => {
 
 ctrl.updateMovie = async (req, res) => {
   try {
-    const id_movie = req.params.id_movie
+    const movieId = req.params.id_movie
     const {
       title,
       genres,
@@ -91,7 +90,7 @@ ctrl.updateMovie = async (req, res) => {
       casts,
       synopsis,
       img,
-      id_movie
+      movieId
     })
     res.status(200).send(data)
   } catch (error) {
@@ -101,8 +100,8 @@ ctrl.updateMovie = async (req, res) => {
 
 ctrl.deleteMovie = async (req, res) => {
   try {
-    const id_movie = req.params.id_movie
-    const data = await model.deleteMovie({ id_movie })
+    const movieId = req.params.id_movie
+    const data = await model.deleteMovie({ movieId })
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)

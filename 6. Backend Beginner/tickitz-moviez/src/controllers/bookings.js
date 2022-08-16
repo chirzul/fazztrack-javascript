@@ -1,13 +1,12 @@
-/* eslint-disable camelcase */
 const ctrl = {}
 const model = require('../models/bookings')
 
 ctrl.addBooking = async (req, res) => {
   try {
-    const { id_schedule, id_user, seats } = req.body
+    const { scheduleId, userId, seats } = req.body
     const data = await model.addBooking({
-      id_schedule,
-      id_user,
+      scheduleId,
+      userId,
       seats
     })
     res.status(200).send(data)
@@ -27,8 +26,8 @@ ctrl.getAllBookings = async (req, res) => {
 
 ctrl.getBookingById = async (req, res) => {
   try {
-    const id_booking = req.params.id_booking
-    const data = await model.getBookingById({ id_booking })
+    const bookingId = req.params.id_booking
+    const data = await model.getBookingById({ bookingId })
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -37,13 +36,13 @@ ctrl.getBookingById = async (req, res) => {
 
 ctrl.updateBooking = async (req, res) => {
   try {
-    const id_booking = req.params.id_booking
-    const { id_schedule, id_user, seats } = req.body
+    const bookingId = req.params.id_booking
+    const { scheduleId, userId, seats } = req.body
     const data = await model.updateBooking({
-      id_schedule,
-      id_user,
+      scheduleId,
+      userId,
       seats,
-      id_booking
+      bookingId
     })
     res.status(200).send(data)
   } catch (error) {
@@ -53,8 +52,8 @@ ctrl.updateBooking = async (req, res) => {
 
 ctrl.deleteBooking = async (req, res) => {
   try {
-    const id_booking = req.params.id_booking
-    const data = await model.deleteSchedule({ id_booking })
+    const bookingId = req.params.id_booking
+    const data = await model.deleteSchedule({ bookingId })
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)

@@ -3,9 +3,7 @@ const db = require('../config/db')
 
 model.addMovie = async (data) => {
   await db.query(
-    `INSERT INTO public.movies
-      (title, genres, "releaseDate", duration, director, casts, synopsis, img)
-      VALUES($1, $2, $3, $4, $5, $6, $7, $8)`,
+    'INSERT INTO public.movies (title, genres, release_date, duration, director, casts, synopsis, img) VALUES($1, $2, $3, $4, $5, $6, $7, $8)',
     [
       data.title,
       data.genres,
@@ -23,7 +21,7 @@ model.addMovie = async (data) => {
 model.getAllMovies = async () => {
   try {
     const query = await db.query(
-      'SELECT id_movie, img, title, genres, "releaseDate" FROM public.movies ORDER BY id_movie DESC'
+      'SELECT movie_id, img, title, genres, release_date FROM public.movies ORDER BY movie_id DESC'
     )
     return query.rows
   } catch (error) {
@@ -34,7 +32,7 @@ model.getAllMovies = async () => {
 model.getSortedMovies = async () => {
   try {
     const query = await db.query(
-      'SELECT id_movie, img, title, genres, "releaseDate" FROM public.movies ORDER BY EXTRACT(YEAR FROM "releaseDate") DESC, title ASC'
+      'SELECT movie_id, img, title, genres, release_date FROM public.movies ORDER BY EXTRACT(YEAR FROM release_date) DESC, title ASC'
     )
     return query.rows
   } catch (error) {
@@ -45,8 +43,8 @@ model.getSortedMovies = async () => {
 model.getMovieById = async (data) => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.movies WHERE id_movie=$1',
-      [data.id_movie]
+      'SELECT * FROM public.movies WHERE movie_id=$1',
+      [data.movieId]
     )
     return query.rows
   } catch (error) {
@@ -82,7 +80,7 @@ model.updateMovie = async (data) => {
     id++
   }
   if (data.releaseDate) {
-    query += ` "releaseDate"=$${id},`
+    query += ` release_date=$${id},`
     datas.push(data.releaseDate)
     id++
   }
@@ -107,15 +105,15 @@ model.updateMovie = async (data) => {
     id++
   }
   query = query.slice(0, -1)
-  query += ` WHERE id_movie=$${id}`
-  datas.push(data.id_movie)
+  query += ` WHERE movie_id=$${id}`
+  datas.push(data.movieId)
 
   await db.query(query, datas)
   return 'data berhasil diubah'
 }
 
 model.deleteMovie = async (data) => {
-  await db.query('DELETE FROM public.movies WHERE id_movie=$1', [data.id_movie])
+  await db.query('DELETE FROM public.movies WHERE movie_id=$1', [data.movieId])
   return 'data berhasil dihapus'
 }
 

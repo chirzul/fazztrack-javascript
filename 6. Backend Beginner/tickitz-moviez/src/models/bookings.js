@@ -3,8 +3,8 @@ const db = require('../config/db')
 
 model.addBooking = async (data) => {
   await db.query(
-    'INSERT INTO public.bookings (id_schedule, id_user, seats) VALUES($1, $2, $3)',
-    [data.id_schedule, data.id_user, data.seats]
+    'INSERT INTO public.bookings (schedule_id, user_id, seats) VALUES($1, $2, $3)',
+    [data.scheduleId, data.userId, data.seats]
   )
   return 'data berhasil disimpan'
 }
@@ -12,7 +12,7 @@ model.addBooking = async (data) => {
 model.getAllBookings = async () => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.bookings ORDER BY id_booking DESC'
+      'SELECT * FROM public.bookings ORDER BY booking_id DESC'
     )
     return query.rows
   } catch (error) {
@@ -23,8 +23,8 @@ model.getAllBookings = async () => {
 model.getBookingById = async (data) => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.bookings WHERE id_booking=$1',
-      [data.id_booking]
+      'SELECT * FROM public.bookings WHERE booking_id=$1',
+      [data.bookingId]
     )
     return query.rows
   } catch (error) {
@@ -36,14 +36,14 @@ model.updateBooking = async (data) => {
   let query = 'UPDATE public.bookings SET'
   const datas = []
   let id = 1
-  if (data.id_schedule) {
-    query += ` id_schedule=$${id},`
-    datas.push(data.id_schedule)
+  if (data.scheduleId) {
+    query += ` schedule_id=$${id},`
+    datas.push(data.scheduleId)
     id++
   }
-  if (data.id_user) {
-    query += ` id_user=$${id},`
-    datas.push(data.id_user)
+  if (data.userId) {
+    query += ` user_id=$${id},`
+    datas.push(data.userId)
     id++
   }
   if (data.seats) {
@@ -52,16 +52,16 @@ model.updateBooking = async (data) => {
     id++
   }
   query = query.slice(0, -1)
-  query += ` WHERE id_booking=$${id}`
-  datas.push(data.id_booking)
+  query += ` WHERE booking_id=$${id}`
+  datas.push(data.bookingId)
 
   await db.query(query, datas)
   return 'data berhasil diubah'
 }
 
 model.deleteSchedule = async (data) => {
-  await db.query('DELETE FROM public.bookings WHERE id_booking=$1', [
-    data.id_booking
+  await db.query('DELETE FROM public.bookings WHERE booking_id=$1', [
+    data.bookingId
   ])
   return 'data berhasil dihapus'
 }
