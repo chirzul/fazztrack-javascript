@@ -12,7 +12,7 @@ model.addMovie = async (data) => {
       data.director,
       data.casts,
       data.synopsis,
-      data.img
+      data.filename
     ]
   )
   return 'data berhasil disimpan'

@@ -4,7 +4,8 @@ const response = require('../helpers/response')
 
 ctrl.addMovie = async (req, res) => {
   try {
-    const data = await model.addMovie(req.body)
+    const filename = req.file.filename
+    const data = await model.addMovie({ ...req.body, filename })
     return response(res, 201, data)
   } catch (error) {
     return response(res, 500, 'Terjadi kesalahan', true)
