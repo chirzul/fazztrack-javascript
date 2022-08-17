@@ -22,15 +22,6 @@ ctrl.getAllUsers = async (req, res) => {
   }
 }
 
-ctrl.getUserById = async (req, res) => {
-  try {
-    const data = await model.getUserById(req.params)
-    return response(res, 200, data)
-  } catch (error) {
-    return response(res, 500, 'Terjadi kesalahan', true)
-  }
-}
-
 ctrl.updateUser = async (req, res) => {
   try {
     const hashPassword = await hash(req.body.password)

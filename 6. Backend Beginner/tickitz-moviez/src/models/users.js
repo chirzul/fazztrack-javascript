@@ -27,11 +27,11 @@ model.getAllUsers = async () => {
   }
 }
 
-model.getUserById = async (data) => {
+model.getUser = async (username) => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.users WHERE user_id=$1',
-      [data.user_id]
+      'SELECT * FROM public.users WHERE username=$1',
+      [username]
     )
     return query.rows
   } catch (error) {
