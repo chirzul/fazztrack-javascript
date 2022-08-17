@@ -3,17 +3,7 @@ const model = require('../models/schedules')
 
 ctrl.addSchedule = async (req, res) => {
   try {
-    const { movieId, showDate, city, theater, address, showTime, price } =
-      req.body
-    const data = await model.addSchedule({
-      movieId,
-      showDate,
-      city,
-      theater,
-      address,
-      showTime,
-      price
-    })
+    const data = await model.addSchedule(req.body)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -29,10 +19,9 @@ ctrl.getAllSchedules = async (req, res) => {
   }
 }
 
-ctrl.getSpecificSchedule = async (req, res) => {
+ctrl.getScheduleById = async (req, res) => {
   try {
-    const scheduleId = req.params.id_schedule
-    const data = await model.getSpecificSchedule({ scheduleId })
+    const data = await model.getScheduleById(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -41,19 +30,7 @@ ctrl.getSpecificSchedule = async (req, res) => {
 
 ctrl.updateSchedule = async (req, res) => {
   try {
-    const scheduleId = req.params.id_schedule
-    const { movieId, showDate, city, theater, address, showTime, price } =
-      req.body
-    const data = await model.updateSchedule({
-      movieId,
-      showDate,
-      city,
-      theater,
-      address,
-      showTime,
-      price,
-      scheduleId
-    })
+    const data = await model.updateSchedule([req.params, req.body])
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -62,8 +39,7 @@ ctrl.updateSchedule = async (req, res) => {
 
 ctrl.deleteSchedule = async (req, res) => {
   try {
-    const scheduleId = req.params.id_schedule
-    const data = await model.deleteSchedule({ scheduleId })
+    const data = await model.deleteSchedule(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
