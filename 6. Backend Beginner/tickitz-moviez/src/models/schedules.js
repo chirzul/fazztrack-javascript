@@ -44,44 +44,44 @@ model.updateSchedule = async (data) => {
   let query = 'UPDATE public.schedules SET'
   const datas = []
   let id = 1
-  if (data[1].movie_id) {
+  if (data.movie_id) {
     query += ` movie_id=$${id},`
-    datas.push(data[1].movie_id)
+    datas.push(data.movie_id)
     id++
   }
-  if (data[1].show_date) {
+  if (data.show_date) {
     query += ` "show_date"=$${id},`
-    datas.push(data[1].show_date)
+    datas.push(data.show_date)
     id++
   }
-  if (data[1].city) {
+  if (data.city) {
     query += ` city=$${id},`
-    datas.push(data[1].city)
+    datas.push(data.city)
     id++
   }
-  if (data[1].theater) {
+  if (data.theater) {
     query += ` theater=$${id},`
-    datas.push(data[1].theater)
+    datas.push(data.theater)
     id++
   }
-  if (data[1].address) {
+  if (data.address) {
     query += ` address=$${id},`
-    datas.push(data[1].address)
+    datas.push(data.address)
     id++
   }
-  if (data[1].show_time) {
+  if (data.show_time) {
     query += ` "show_time"=$${id},`
-    datas.push(data[1].show_time)
+    datas.push(data.show_time)
     id++
   }
-  if (data[1].price) {
+  if (data.price) {
     query += ` price=$${id},`
-    datas.push(data[1].price)
+    datas.push(data.price)
     id++
   }
   query = query.slice(0, -1)
   query += ` WHERE schedule_id=$${id}`
-  datas.push(data[0].schedule_id)
+  datas.push(data.schedule_id)
 
   await db.query(query, datas)
   return 'data berhasil diubah'

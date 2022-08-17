@@ -36,24 +36,24 @@ model.updateBooking = async (data) => {
   let query = 'UPDATE public.bookings SET'
   const datas = []
   let id = 1
-  if (data[1].schedule_id) {
+  if (data.schedule_id) {
     query += ` schedule_id=$${id},`
-    datas.push(data[1].schedule_id)
+    datas.push(data.schedule_id)
     id++
   }
-  if (data[1].user_id) {
+  if (data.user_id) {
     query += ` user_id=$${id},`
-    datas.push(data[1].user_id)
+    datas.push(data.user_id)
     id++
   }
-  if (data[1].seats) {
+  if (data.seats) {
     query += ` seats=$${id},`
-    datas.push(data[1].seats)
+    datas.push(data.seats)
     id++
   }
   query = query.slice(0, -1)
   query += ` WHERE booking_id=$${id}`
-  datas.push(data[0].booking_id)
+  datas.push(data.booking_id)
 
   await db.query(query, datas)
   return 'data berhasil diubah'

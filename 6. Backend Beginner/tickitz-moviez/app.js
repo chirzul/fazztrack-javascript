@@ -9,7 +9,7 @@ const init = async () => {
     await db.connect()
     app.use(express.urlencoded({ extended: true }))
     app.use(express.json())
-    app.use(main)
+    app.use('/api/v1', main)
 
     app.listen(port, () => {
       console.log(`Tickitz Movie App listening on port ${port}`)

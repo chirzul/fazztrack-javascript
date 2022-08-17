@@ -6,9 +6,9 @@ model.addUser = async (data) => {
     'INSERT INTO public.users (username, "password", first_name, last_name, email, phone) VALUES($1, $2, $3, $4, $5, $6)',
     [
       data.username,
-      data.password,
-      data.firstName,
-      data.lastName,
+      data.hashPassword,
+      data.first_name,
+      data.first_name,
       data.email,
       data.phone
     ]
@@ -31,7 +31,7 @@ model.getUserById = async (data) => {
   try {
     const query = await db.query(
       'SELECT * FROM public.users WHERE user_id=$1',
-      [data.userId]
+      [data.user_id]
     )
     return query.rows
   } catch (error) {
@@ -48,19 +48,19 @@ model.updateUser = async (data) => {
     datas.push(data.username)
     id++
   }
-  if (data.password) {
+  if (data.hashPassword) {
     query += ` "password"=$${id},`
-    datas.push(data.password)
+    datas.push(data.hashPassword)
     id++
   }
-  if (data.firstName) {
+  if (data.first_name) {
     query += ` first_name=$${id},`
-    datas.push(data.firstName)
+    datas.push(data.first_name)
     id++
   }
-  if (data.lastName) {
+  if (data.last_name) {
     query += ` last_name=$${id},`
-    datas.push(data.lastName)
+    datas.push(data.last_name)
     id++
   }
   if (data.email) {
@@ -75,14 +75,14 @@ model.updateUser = async (data) => {
   }
   query = query.slice(0, -1)
   query += ` WHERE user_id=$${id}`
-  datas.push(data.userId)
+  datas.push(data.user_id)
 
   await db.query(query, datas)
   return 'data berhasil diubah'
 }
 
 model.deleteSchedule = async (data) => {
-  await db.query('DELETE FROM public.users WHERE user_id=$1', [data.userId])
+  await db.query('DELETE FROM public.users WHERE user_id=$1', [data.user_id])
   return 'data berhasil dihapus'
 }
 

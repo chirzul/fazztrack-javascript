@@ -1,68 +1,56 @@
 const ctrl = {}
 const model = require('../models/users')
+const hash = require('../helpers/hash')
+const response = require('../helpers/response')
 
 ctrl.addUser = async (req, res) => {
   try {
-    const { username, password, firstName, lastName, email, phone } = req.body
-    const data = await model.addUser({
-      username,
-      password,
-      firstName,
-      lastName,
-      email,
-      phone
-    })
-    res.status(200).send(data)
+    const hashPassword = await hash(req.body.password)
+    const data = await model.addUser({ ...req.body, hashPassword })
+    return response(res, 201, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.getAllUsers = async (req, res) => {
   try {
     const data = await model.getAllUsers()
-    res.status(200).send(data)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.getUserById = async (req, res) => {
   try {
-    const userId = req.params.id_user
-    const data = await model.getUserById({ userId })
-    res.status(200).send(data)
+    const data = await model.getUserById(req.params)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.updateUser = async (req, res) => {
   try {
-    const userId = req.params.id_user
-    const { username, password, firstName, lastName, email, phone } = req.body
+    const hashPassword = await hash(req.body.password)
     const data = await model.updateUser({
-      username,
-      password,
-      firstName,
-      lastName,
-      email,
-      phone,
-      userId
+      ...req.params,
+      ...req.body,
+      hashPassword
     })
-    res.status(200).send(data)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.deleteUser = async (req, res) => {
   try {
-    const userId = req.params.id_user
-    const data = await model.deleteUser({ userId })
-    res.status(200).send(data)
+    const data = await model.deleteUser(req.params)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 

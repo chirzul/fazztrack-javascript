@@ -69,44 +69,44 @@ model.updateMovie = async (data) => {
   let query = 'UPDATE public.movies SET'
   const datas = []
   let id = 1
-  if (data[1].title) {
+  if (data.title) {
     query += ` title=$${id},`
-    datas.push(data[1].title)
+    datas.push(data.title)
     id++
   }
-  if (data[1].genres) {
+  if (data.genres) {
     query += ` genres=$${id},`
-    datas.push(data[1].genres)
+    datas.push(data.genres)
     id++
   }
-  if (data[1].release_date) {
+  if (data.release_date) {
     query += ` release_date=$${id},`
-    datas.push(data[1].release_date)
+    datas.push(data.release_date)
     id++
   }
-  if (data[1].duration) {
+  if (data.duration) {
     query += ` duration=$${id},`
-    datas.push(data[1].duration)
+    datas.push(data.duration)
     id++
   }
-  if (data[1].casts) {
+  if (data.casts) {
     query += ` casts=$${id},`
-    datas.push(data[1].casts)
+    datas.push(data.casts)
     id++
   }
-  if (data[1].synopsis) {
+  if (data.synopsis) {
     query += ` synopsis=$${id},`
-    datas.push(data[1].synopsis)
+    datas.push(data.synopsis)
     id++
   }
-  if (data[1].img) {
+  if (data.img) {
     query += ` img=$${id},`
-    datas.push(data[1].img)
+    datas.push(data.img)
     id++
   }
   query = query.slice(0, -1)
   query += ` WHERE movie_id=$${id}`
-  datas.push(data[0].movie_id)
+  datas.push(data.movie_id)
 
   await db.query(query, datas)
   return 'data berhasil diubah'

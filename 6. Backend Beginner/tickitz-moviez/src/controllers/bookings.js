@@ -1,48 +1,49 @@
 const ctrl = {}
 const model = require('../models/bookings')
+const response = require('../helpers/response')
 
 ctrl.addBooking = async (req, res) => {
   try {
     const data = await model.addBooking(req.body)
-    res.status(200).send(data)
+    return response(res, 201, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.getAllBookings = async (req, res) => {
   try {
     const data = await model.getAllBookings()
-    res.status(200).send(data)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.getBookingById = async (req, res) => {
   try {
     const data = await model.getBookingById(req.params)
-    res.status(200).send(data)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.updateBooking = async (req, res) => {
   try {
-    const data = await model.updateBooking([req.params, req.body])
-    res.status(200).send(data)
+    const data = await model.updateBooking({ ...req.params, ...req.body })
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
 ctrl.deleteBooking = async (req, res) => {
   try {
     const data = await model.deleteSchedule(req.params)
-    res.status(200).send(data)
+    return response(res, 200, data)
   } catch (error) {
-    res.status(500).send(error)
+    return response(res, 500, 'Terjadi kesalahan', true)
   }
 }
 
