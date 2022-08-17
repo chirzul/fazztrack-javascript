@@ -7,7 +7,7 @@ model.addMovie = async (data) => {
     [
       data.title,
       data.genres,
-      data.releaseDate,
+      data.release_date,
       data.duration,
       data.director,
       data.casts,
@@ -44,7 +44,7 @@ model.getMovieById = async (data) => {
   try {
     const query = await db.query(
       'SELECT * FROM public.movies WHERE movie_id=$1',
-      [data.movieId]
+      [data.movie_id]
     )
     return query.rows
   } catch (error) {
@@ -69,51 +69,51 @@ model.updateMovie = async (data) => {
   let query = 'UPDATE public.movies SET'
   const datas = []
   let id = 1
-  if (data.title) {
+  if (data[1].title) {
     query += ` title=$${id},`
-    datas.push(data.title)
+    datas.push(data[1].title)
     id++
   }
-  if (data.genres) {
+  if (data[1].genres) {
     query += ` genres=$${id},`
-    datas.push(data.genres)
+    datas.push(data[1].genres)
     id++
   }
-  if (data.releaseDate) {
+  if (data[1].release_date) {
     query += ` release_date=$${id},`
-    datas.push(data.releaseDate)
+    datas.push(data[1].release_date)
     id++
   }
-  if (data.duration) {
+  if (data[1].duration) {
     query += ` duration=$${id},`
-    datas.push(data.duration)
+    datas.push(data[1].duration)
     id++
   }
-  if (data.casts) {
+  if (data[1].casts) {
     query += ` casts=$${id},`
-    datas.push(data.casts)
+    datas.push(data[1].casts)
     id++
   }
-  if (data.synopsis) {
+  if (data[1].synopsis) {
     query += ` synopsis=$${id},`
-    datas.push(data.synopsis)
+    datas.push(data[1].synopsis)
     id++
   }
-  if (data.img) {
+  if (data[1].img) {
     query += ` img=$${id},`
-    datas.push(data.img)
+    datas.push(data[1].img)
     id++
   }
   query = query.slice(0, -1)
   query += ` WHERE movie_id=$${id}`
-  datas.push(data.movieId)
+  datas.push(data[0].movie_id)
 
   await db.query(query, datas)
   return 'data berhasil diubah'
 }
 
 model.deleteMovie = async (data) => {
-  await db.query('DELETE FROM public.movies WHERE movie_id=$1', [data.movieId])
+  await db.query('DELETE FROM public.movies WHERE movie_id=$1', [data.movie_id])
   return 'data berhasil dihapus'
 }
 

@@ -1,26 +1,25 @@
 const model = {}
 const db = require('../config/db')
 
-model.addSchedule = async (data) => {
+model.addUser = async (data) => {
   await db.query(
-    'INSERT INTO public.schedules (movie_id, show_date, city, theater, address, show_time, price) VALUES($1, $2, $3, $4, $5, $6, $7)',
+    'INSERT INTO public.users (username, "password", first_name, last_name, email, phone) VALUES($1, $2, $3, $4, $5, $6)',
     [
-      data.movieId,
-      data.showDate,
-      data.city,
-      data.theater,
-      data.address,
-      data.showTime,
-      data.price
+      data.username,
+      data.password,
+      data.firstName,
+      data.lastName,
+      data.email,
+      data.phone
     ]
   )
   return 'data berhasil disimpan'
 }
 
-model.getAllSchedules = async () => {
+model.getAllUsers = async () => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.schedules ORDER BY schedule_id DESC'
+      'SELECT * FROM public.users ORDER BY created_at DESC'
     )
     return query.rows
   } catch (error) {
@@ -28,11 +27,11 @@ model.getAllSchedules = async () => {
   }
 }
 
-model.getSpecificSchedule = async (data) => {
+model.getUserById = async (data) => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.schedules WHERE schedule_id=$1',
-      [data.scheduleId]
+      'SELECT * FROM public.users WHERE user_id=$1',
+      [data.userId]
     )
     return query.rows
   } catch (error) {
@@ -40,57 +39,50 @@ model.getSpecificSchedule = async (data) => {
   }
 }
 
-model.updateSchedule = async (data) => {
-  let query = 'UPDATE public.schedules SET'
+model.updateUser = async (data) => {
+  let query = 'UPDATE public.users SET'
   const datas = []
   let id = 1
-  if (data.movieId) {
-    query += ` movie_id=$${id},`
-    datas.push(data.movieId)
+  if (data.username) {
+    query += ` username=$${id},`
+    datas.push(data.username)
     id++
   }
-  if (data.showDate) {
-    query += ` "show_date"=$${id},`
-    datas.push(data.showDate)
+  if (data.password) {
+    query += ` "password"=$${id},`
+    datas.push(data.password)
     id++
   }
-  if (data.city) {
-    query += ` city=$${id},`
-    datas.push(data.city)
+  if (data.firstName) {
+    query += ` first_name=$${id},`
+    datas.push(data.firstName)
     id++
   }
-  if (data.theater) {
-    query += ` theater=$${id},`
-    datas.push(data.theater)
+  if (data.lastName) {
+    query += ` last_name=$${id},`
+    datas.push(data.lastName)
     id++
   }
-  if (data.address) {
-    query += ` address=$${id},`
-    datas.push(data.address)
+  if (data.email) {
+    query += ` email=$${id},`
+    datas.push(data.email)
     id++
   }
-  if (data.showTime) {
-    query += ` "show_time"=$${id},`
-    datas.push(data.showTime)
-    id++
-  }
-  if (data.price) {
-    query += ` price=$${id},`
-    datas.push(data.price)
+  if (data.phone) {
+    query += ` "phone"=$${id},`
+    datas.push(data.phone)
     id++
   }
   query = query.slice(0, -1)
-  query += ` WHERE schedule_id=$${id}`
-  datas.push(data.scheduleId)
+  query += ` WHERE user_id=$${id}`
+  datas.push(data.userId)
 
   await db.query(query, datas)
   return 'data berhasil diubah'
 }
 
 model.deleteSchedule = async (data) => {
-  await db.query('DELETE FROM public.schedules WHERE schedule_id=$1', [
-    data.scheduleId
-  ])
+  await db.query('DELETE FROM public.users WHERE user_id=$1', [data.userId])
   return 'data berhasil dihapus'
 }
 

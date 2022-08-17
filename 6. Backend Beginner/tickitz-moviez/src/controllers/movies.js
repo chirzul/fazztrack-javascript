@@ -3,26 +3,7 @@ const model = require('../models/movies')
 
 ctrl.addMovie = async (req, res) => {
   try {
-    const {
-      title,
-      genres,
-      releaseDate,
-      duration,
-      director,
-      casts,
-      synopsis,
-      img
-    } = req.body
-    const data = await model.addMovie({
-      title,
-      genres,
-      releaseDate,
-      duration,
-      director,
-      casts,
-      synopsis,
-      img
-    })
+    const data = await model.addMovie(req.body)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -49,8 +30,7 @@ ctrl.getSortedMovies = async (req, res) => {
 
 ctrl.getMovieById = async (req, res) => {
   try {
-    const movieId = req.params.id_movie
-    const data = await model.getMovieById({ movieId })
+    const data = await model.getMovieById(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -59,8 +39,7 @@ ctrl.getMovieById = async (req, res) => {
 
 ctrl.searchMovie = async (req, res) => {
   try {
-    const title = req.query.title
-    const data = await model.searchMovie({ title })
+    const data = await model.searchMovie(req.query)
     res.status(200).send(data)
   } catch (error) {
     console.log(error)
@@ -70,28 +49,7 @@ ctrl.searchMovie = async (req, res) => {
 
 ctrl.updateMovie = async (req, res) => {
   try {
-    const movieId = req.params.id_movie
-    const {
-      title,
-      genres,
-      releaseDate,
-      duration,
-      director,
-      casts,
-      synopsis,
-      img
-    } = req.body
-    const data = await model.updateMovie({
-      title,
-      genres,
-      releaseDate,
-      duration,
-      director,
-      casts,
-      synopsis,
-      img,
-      movieId
-    })
+    const data = await model.updateMovie([req.params, req.body])
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -100,8 +58,7 @@ ctrl.updateMovie = async (req, res) => {
 
 ctrl.deleteMovie = async (req, res) => {
   try {
-    const movieId = req.params.id_movie
-    const data = await model.deleteMovie({ movieId })
+    const data = await model.deleteMovie(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
