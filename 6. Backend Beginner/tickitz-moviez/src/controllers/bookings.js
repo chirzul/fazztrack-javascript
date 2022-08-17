@@ -3,12 +3,7 @@ const model = require('../models/bookings')
 
 ctrl.addBooking = async (req, res) => {
   try {
-    const { scheduleId, userId, seats } = req.body
-    const data = await model.addBooking({
-      scheduleId,
-      userId,
-      seats
-    })
+    const data = await model.addBooking(req.body)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -26,8 +21,7 @@ ctrl.getAllBookings = async (req, res) => {
 
 ctrl.getBookingById = async (req, res) => {
   try {
-    const bookingId = req.params.id_booking
-    const data = await model.getBookingById({ bookingId })
+    const data = await model.getBookingById(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -36,14 +30,7 @@ ctrl.getBookingById = async (req, res) => {
 
 ctrl.updateBooking = async (req, res) => {
   try {
-    const bookingId = req.params.id_booking
-    const { scheduleId, userId, seats } = req.body
-    const data = await model.updateBooking({
-      scheduleId,
-      userId,
-      seats,
-      bookingId
-    })
+    const data = await model.updateBooking([req.params, req.body])
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
@@ -52,8 +39,7 @@ ctrl.updateBooking = async (req, res) => {
 
 ctrl.deleteBooking = async (req, res) => {
   try {
-    const bookingId = req.params.id_booking
-    const data = await model.deleteSchedule({ bookingId })
+    const data = await model.deleteSchedule(req.params)
     res.status(200).send(data)
   } catch (error) {
     res.status(500).send(error)
