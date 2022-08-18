@@ -1,5 +1,6 @@
 const model = {}
 const db = require('../config/db')
+const cloudinary = require('../middlewares/cloudinary')
 
 model.addMovie = async (data) => {
   await db.query(
@@ -12,7 +13,7 @@ model.addMovie = async (data) => {
       data.director,
       data.casts,
       data.synopsis,
-      data.filename
+      data.img
     ]
   )
   return 'data berhasil disimpan'
@@ -66,6 +67,16 @@ model.searchMovie = async (data) => {
 }
 
 model.updateMovie = async (data) => {
+  let img = await db.query('SELECT * FROM public.movies WHERE movie_id=$1', [
+    data.movie_id
+  ])
+  img = img.rows[0].img
+  img = img.split('/v')[1].split('/')
+  img.shift()
+  img = img.join('/').split('.png')[0]
+  await cloudinary.uploader.destroy(img, function (result) {
+    console.log(result)
+  })
   let query = 'UPDATE public.movies SET'
   const datas = []
   let id = 1
@@ -113,6 +124,16 @@ model.updateMovie = async (data) => {
 }
 
 model.deleteMovie = async (data) => {
+  let img = await db.query('SELECT * FROM public.movies WHERE movie_id=$1', [
+    data.movie_id
+  ])
+  img = img.rows[0].img
+  img = img.split('/v')[1].split('/')
+  img.shift()
+  img = img.join('/').split('.png')[0]
+  await cloudinary.uploader.destroy(img, function (result) {
+    console.log(result)
+  })
   await db.query('DELETE FROM public.movies WHERE movie_id=$1', [data.movie_id])
   return 'data berhasil dihapus'
 }

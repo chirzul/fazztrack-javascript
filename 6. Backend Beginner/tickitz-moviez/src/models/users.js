@@ -48,11 +48,6 @@ model.updateUser = async (data) => {
     datas.push(data.username)
     id++
   }
-  if (data.hashPassword) {
-    query += ` "password"=$${id},`
-    datas.push(data.hashPassword)
-    id++
-  }
   if (data.first_name) {
     query += ` first_name=$${id},`
     datas.push(data.first_name)
@@ -81,7 +76,15 @@ model.updateUser = async (data) => {
   return 'data berhasil diubah'
 }
 
-model.deleteSchedule = async (data) => {
+model.changePassword = async (data) => {
+  await db.query('UPDATE public.users SET password=$1 WHERE user_id=$2', [
+    data.hashPassword,
+    data.user_id
+  ])
+  return 'password berhasil diubah'
+}
+
+model.deleteUser = async (data) => {
   await db.query('DELETE FROM public.users WHERE user_id=$1', [data.user_id])
   return 'data berhasil dihapus'
 }

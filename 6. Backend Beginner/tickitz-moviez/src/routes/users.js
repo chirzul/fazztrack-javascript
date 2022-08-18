@@ -4,6 +4,7 @@ const ctrl = require('../controllers/users')
 
 router.get('/', ctrl.getAllUsers)
 router.post('/', ctrl.addUser)
+router.patch('/:user_id', ctrl.changePassword)
 router.put('/:user_id', ctrl.updateUser)
 router.delete('/:user_id', ctrl.deleteUser)
 

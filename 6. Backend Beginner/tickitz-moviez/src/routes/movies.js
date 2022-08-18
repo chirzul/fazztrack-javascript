@@ -9,7 +9,7 @@ router.get('/sorted', ctrl.getSortedMovies)
 router.get('/:movie_id', ctrl.getMovieById)
 router.get('/', ctrl.getAllMovies)
 router.post('/', upload.single('img'), ctrl.addMovie)
-router.put('/:movie_id', authCheck, ctrl.updateMovie)
+router.put('/:movie_id', upload.single('img'), ctrl.updateMovie)
 router.delete('/:movie_id', authCheck, ctrl.deleteMovie)
 
 module.exports = router

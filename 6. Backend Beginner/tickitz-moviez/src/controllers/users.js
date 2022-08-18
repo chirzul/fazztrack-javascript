@@ -24,12 +24,17 @@ ctrl.getAllUsers = async (req, res) => {
 
 ctrl.updateUser = async (req, res) => {
   try {
+    const data = await model.updateUser({ ...req.params, ...req.body })
+    return response(res, 200, data)
+  } catch (error) {
+    return response(res, 500, 'Terjadi kesalahan', true)
+  }
+}
+
+ctrl.changePassword = async (req, res) => {
+  try {
     const hashPassword = await hash(req.body.password)
-    const data = await model.updateUser({
-      ...req.params,
-      ...req.body,
-      hashPassword
-    })
+    const data = await model.changePassword({ ...req.params, hashPassword })
     return response(res, 200, data)
   } catch (error) {
     return response(res, 500, 'Terjadi kesalahan', true)

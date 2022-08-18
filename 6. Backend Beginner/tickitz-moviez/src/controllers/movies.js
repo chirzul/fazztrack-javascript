@@ -1,11 +1,17 @@
 const ctrl = {}
 const model = require('../models/movies')
 const response = require('../helpers/response')
+const cloudinary = require('../middlewares/cloudinary')
 
 ctrl.addMovie = async (req, res) => {
   try {
-    const filename = req.file.filename
-    const data = await model.addMovie({ ...req.body, filename })
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'tickitz_movie',
+      use_filename: true,
+      unique_filename: false
+    })
+    const img = upload.secure_url
+    const data = await model.addMovie({ ...req.body, img })
     return response(res, 201, data)
   } catch (error) {
     return response(res, 500, 'Terjadi kesalahan', true)
@@ -50,7 +56,17 @@ ctrl.searchMovie = async (req, res) => {
 
 ctrl.updateMovie = async (req, res) => {
   try {
-    const data = await model.updateMovie({ ...req.params, ...req.body })
+    const upload = await cloudinary.uploader.upload(req.file.path, {
+      folder: 'tickitz_movie',
+      use_filename: true,
+      unique_filename: false
+    })
+    const img = upload.secure_url
+    const data = await model.updateMovie({
+      ...req.params,
+      ...req.body,
+      img
+    })
     return response(res, 200, data)
   } catch (error) {
     return response(res, 500, 'Terjadi kesalahan', true)
