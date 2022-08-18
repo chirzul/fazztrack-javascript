@@ -5,6 +5,17 @@ const response = require('../helpers/response')
 
 ctrl.addUser = async (req, res) => {
   try {
+    const user = await model.getUser(req.body.username)
+    const checkEmail = await model.checkEmail(req.body.email)
+
+    if (user.length > 0) {
+      return response(res, 400, 'Username sudah terdaftar', true)
+    }
+
+    if (checkEmail.length > 0) {
+      return response(res, 400, 'Email sudah terdaftar', true)
+    }
+
     const hashPassword = await hash(req.body.password)
     const data = await model.addUser({ ...req.body, hashPassword })
     return response(res, 201, data)
