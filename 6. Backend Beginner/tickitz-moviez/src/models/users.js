@@ -4,14 +4,15 @@ const db = require('../config/db')
 model.addUser = async (data) => {
   try {
     await db.query(
-      'INSERT INTO public.users (username, "password", first_name, last_name, email, phone) VALUES($1, $2, $3, $4, $5, $6)',
+      'INSERT INTO public.users (username, "password", first_name, last_name, email, phone, "role") VALUES($1, $2, $3, $4, $5, $6, $7)',
       [
         data.username,
         data.hashPassword,
         data.first_name,
         data.first_name,
         data.email,
-        data.phone
+        data.phone,
+        data.role
       ]
     )
     return 'data berhasil disimpan'
@@ -80,12 +81,16 @@ model.updateUser = async (data) => {
       id++
     }
     if (data.phone) {
-      query += ` "phone"=$${id},`
+      query += ` phone=$${id},`
       datas.push(data.phone)
       id++
     }
-    query = query.slice(0, -1)
-    query += ` WHERE user_id=$${id}`
+    if (data.role) {
+      query += ` "role"=$${id},`
+      datas.push(data.role)
+      id++
+    }
+    query += ` updated_at=now() WHERE user_id=$${id}`
     datas.push(data.user_id)
 
     await db.query(query, datas)

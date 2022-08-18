@@ -56,8 +56,7 @@ model.updateBooking = async (data) => {
       datas.push(data.seats)
       id++
     }
-    query = query.slice(0, -1)
-    query += ` WHERE booking_id=$${id}`
+    query += ` updated_at=now() WHERE booking_id=$${id}`
     datas.push(data.booking_id)
 
     await db.query(query, datas)

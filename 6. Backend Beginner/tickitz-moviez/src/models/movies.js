@@ -130,8 +130,7 @@ model.updateMovie = async (data) => {
       datas.push(img)
       id++
     }
-    query = query.slice(0, -1)
-    query += ` WHERE movie_id=$${id}`
+    query += ` updated_at=now() WHERE movie_id=$${id}`
     datas.push(data.movie_id)
 
     await db.query(query, datas)

@@ -84,8 +84,7 @@ model.updateSchedule = async (data) => {
       datas.push(data.price)
       id++
     }
-    query = query.slice(0, -1)
-    query += ` WHERE schedule_id=$${id}`
+    query += ` updated_at=now() WHERE schedule_id=$${id}`
     datas.push(data.schedule_id)
 
     await db.query(query, datas)
