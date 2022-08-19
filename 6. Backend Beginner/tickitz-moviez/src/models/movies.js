@@ -109,6 +109,11 @@ model.updateMovie = async (data) => {
       datas.push(data.duration)
       id++
     }
+    if (data.director) {
+      query += ` director=$${id},`
+      datas.push(data.director)
+      id++
+    }
     if (data.casts) {
       query += ` casts=$${id},`
       datas.push(data.casts)

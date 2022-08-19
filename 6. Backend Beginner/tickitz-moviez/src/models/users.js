@@ -4,7 +4,9 @@ const db = require('../config/db')
 model.addUser = async (data) => {
   try {
     await db.query(
-      'INSERT INTO public.users (username, "password", first_name, last_name, email, phone, "role") VALUES($1, $2, $3, $4, $5, $6, $7)',
+      `INSERT INTO public.users
+        (username, "password", first_name, last_name, email, phone, "role")
+        VALUES($1, $2, $3, $4, $5, $6, $7)`,
       [
         data.username,
         data.hashPassword,
@@ -57,43 +59,26 @@ model.checkEmail = async (email) => {
 
 model.updateUser = async (data) => {
   try {
-    let query = 'UPDATE public.users SET'
-    const datas = []
-    let id = 1
-    if (data.username) {
-      query += ` username=$${id},`
-      datas.push(data.username)
-      id++
-    }
-    if (data.first_name) {
-      query += ` first_name=$${id},`
-      datas.push(data.first_name)
-      id++
-    }
-    if (data.last_name) {
-      query += ` last_name=$${id},`
-      datas.push(data.last_name)
-      id++
-    }
-    if (data.email) {
-      query += ` email=$${id},`
-      datas.push(data.email)
-      id++
-    }
-    if (data.phone) {
-      query += ` phone=$${id},`
-      datas.push(data.phone)
-      id++
-    }
-    if (data.role) {
-      query += ` "role"=$${id},`
-      datas.push(data.role)
-      id++
-    }
-    query += ` updated_at=now() WHERE user_id=$${id}`
-    datas.push(data.user_id)
-
-    await db.query(query, datas)
+    await db.query(
+      `UPDATE public.users
+        SET username=COALESCE(NULLIF($1, ''), username),
+        first_name=COALESCE(NULLIF($2, ''), first_name),
+        last_name=COALESCE(NULLIF($3, ''), last_name),
+        email=COALESCE(NULLIF($4, ''), email),
+        phone=COALESCE(NULLIF($5, ''), phone),
+        "role"=COALESCE(NULLIF($6, ''), "role"),
+        updated_at=now()
+        WHERE user_id=$7`,
+      [
+        data.username,
+        data.first_name,
+        data.last_name,
+        data.email,
+        data.phone,
+        data.role,
+        data.user_id
+      ]
+    )
     return 'data berhasil diubah'
   } catch (error) {
     return error
