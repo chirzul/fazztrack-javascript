@@ -61,22 +61,20 @@ model.updateUser = async (data) => {
   try {
     await db.query(
       `UPDATE public.users
-        SET username=COALESCE(NULLIF($1, ''), username),
-            first_name=COALESCE(NULLIF($2, ''), first_name),
-            last_name=COALESCE(NULLIF($3, ''), last_name),
-            email=COALESCE(NULLIF($4, ''), email),
-            phone=COALESCE(NULLIF($5, ''), phone),
-            "role"=COALESCE(NULLIF($6, ''), "role"),
+        SET first_name=COALESCE(NULLIF($1, ''), first_name),
+            last_name=COALESCE(NULLIF($2, ''), last_name),
+            email=COALESCE(NULLIF($3, ''), email),
+            phone=COALESCE(NULLIF($4, ''), phone),
+            "role"=COALESCE(NULLIF($5, ''), "role"),
             updated_at=now()
-        WHERE user_id=$7`,
+        WHERE username=$6`,
       [
-        data.username,
         data.first_name,
         data.last_name,
         data.email,
         data.phone,
         data.role,
-        data.user_id
+        data.username
       ]
     )
     return 'data berhasil diubah'
@@ -87,9 +85,9 @@ model.updateUser = async (data) => {
 
 model.changePassword = async (data) => {
   try {
-    await db.query('UPDATE public.users SET "password"=$1 WHERE user_id=$2', [
+    await db.query('UPDATE public.users SET "password"=$1 WHERE username=$2', [
       data.hashPassword,
-      data.user_id
+      data.username
     ])
     return 'password berhasil diubah'
   } catch (error) {

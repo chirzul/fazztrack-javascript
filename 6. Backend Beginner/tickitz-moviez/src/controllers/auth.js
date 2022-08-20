@@ -4,41 +4,44 @@ const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const response = require('../helpers/response')
 
-const generateToken = (username) => {
-  const payload = {
-    user: username,
-    role: 'user'
+const generateToken = async (username, role) => {
+  try {
+    const payload = {
+      username,
+      role
+    }
+
+    const token = jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: '90m' })
+
+    const result = {
+      msg: 'token created',
+      token
+    }
+    return result
+  } catch (error) {
+    return error
   }
-
-  const token = jwt.sign(payload, process.env.JWT_KEYS, { expiresIn: '60m' })
-
-  const result = {
-    msg: 'token created',
-    token
-  }
-
-  return result
 }
 
 ctrl.login = async (req, res) => {
   try {
     const { username, password } = req.body
-    const passDb = await model.getUser(username)
+    const user = await model.getUser(username)
+    const role = await user[0].role
 
-    if (passDb.length === 0) {
+    if (user.length === 0) {
       return response(res, 401, 'user tidak terdaftar', true)
     }
 
-    const check = await bcrypt.compare(password, passDb[0].password)
+    const check = await bcrypt.compare(password, user[0].password)
 
     if (!check) {
       return response(res, 401, 'password salah', true)
     }
 
-    const result = await generateToken(username)
+    const result = await generateToken(username, role)
     return response(res, 200, result)
   } catch (error) {
-    console.log(error)
     return response(res, 500, 'Terjadi kesalahan', true)
   }
 }

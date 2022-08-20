@@ -1,5 +1,6 @@
 const model = {}
 const db = require('../config/db')
+const format = require('pg-format')
 const cloudinary = require('../middlewares/cloudinary')
 
 model.addMovie = async (data) => {
@@ -28,11 +29,28 @@ model.addMovie = async (data) => {
   }
 }
 
-model.getAllMovies = async () => {
+model.getAllMovies = async (pagination) => {
   try {
-    const query = await db.query(
-      'SELECT movie_id, img, title, genres, release_date FROM public.movies ORDER BY movie_id DESC'
+    let queryTemp = format(
+      'SELECT movie_id, img, title, genres, release_date FROM public.movies'
     )
+
+    if (pagination.order) {
+      queryTemp = format(`${queryTemp} ORDER BY %s`, pagination.order)
+    } else {
+      queryTemp = format(`${queryTemp} ORDER BY movie_id DESC`)
+    }
+
+    if (pagination.page && pagination.limit) {
+      const offset = (pagination.page - 1) * pagination.limit
+      queryTemp = format(
+        `${queryTemp} LIMIT %s OFFSET %s`,
+        pagination.limit,
+        offset
+      )
+    }
+    const query = await db.query(queryTemp)
+
     return query.rows
   } catch (error) {
     return error
@@ -82,7 +100,7 @@ model.updateMovie = async (data) => {
         data.movie_id
       ])
       img = `tickitz${img.rows[0].img.split('tickitz')[1].split('.png')[0]}`
-      await cloudinary.uploader.destroy(img, function (result) {
+      await cloudinary.uploader.destroy(img, (result) => {
         console.log(result)
       })
       const upload = await cloudinary.uploader.upload(data.path, {
@@ -128,7 +146,7 @@ model.deleteMovie = async (data) => {
       data.movie_id
     ])
     img = `tickitz${img.rows[0].img.split('tickitz')[1].split('.png')[0]}`
-    await cloudinary.uploader.destroy(img, function (result) {
+    await cloudinary.uploader.destroy(img, (result) => {
       console.log(result)
     })
     await db.query('DELETE FROM public.movies WHERE movie_id=$1', [

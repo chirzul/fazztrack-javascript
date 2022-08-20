@@ -12,7 +12,7 @@ const authCheck = (req, res, next) => {
     if (err) {
       return response(res, 401, err, true)
     } else {
-      console.log(decode)
+      req.decode = decode
       next()
     }
   })

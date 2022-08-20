@@ -1,11 +1,12 @@
 const express = require('express')
 const router = express.Router()
+const authCheck = require('../middlewares/authCheck')
 const ctrl = require('../controllers/users')
 
-router.get('/', ctrl.getAllUsers)
+router.get('/', authCheck, ctrl.getAllUsers)
 router.post('/', ctrl.addUser)
-router.patch('/:user_id', ctrl.changePassword)
-router.put('/:user_id', ctrl.updateUser)
-router.delete('/:user_id', ctrl.deleteUser)
+router.patch('/', authCheck, ctrl.changePassword)
+router.put('/', authCheck, ctrl.updateUser)
+router.delete('/:user_id', authCheck, ctrl.deleteUser)
 
 module.exports = router
