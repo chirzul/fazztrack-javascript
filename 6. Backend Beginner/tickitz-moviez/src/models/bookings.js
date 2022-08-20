@@ -43,9 +43,9 @@ model.updateBooking = async (data) => {
     await db.query(
       `UPDATE public.bookings
         SET schedule_id=COALESCE(NULLIF($1, ''), schedule_id),
-        user_id=COALESCE(NULLIF($2, ''), user_id),
-        seats=COALESCE(NULLIF($3, ''), seats),
-        updated_at=now()
+            user_id=COALESCE(NULLIF($2, ''), user_id),
+            seats=COALESCE(NULLIF($3, ''), seats),
+            updated_at=now()
         WHERE booking_id=$4`,
       [data.schedule_id, data.user_id, data.seats, data.booking_id]
     )

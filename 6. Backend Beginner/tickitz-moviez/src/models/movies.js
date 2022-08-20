@@ -76,69 +76,46 @@ model.searchMovie = async (data) => {
 
 model.updateMovie = async (data) => {
   try {
+    let img = ''
     if (data.path) {
-      let img = await db.query(
-        'SELECT * FROM public.movies WHERE movie_id=$1',
-        [data.movie_id]
-      )
+      img = await db.query('SELECT * FROM public.movies WHERE movie_id=$1', [
+        data.movie_id
+      ])
       img = `tickitz${img.rows[0].img.split('tickitz')[1].split('.png')[0]}`
       await cloudinary.uploader.destroy(img, function (result) {
         console.log(result)
       })
-    }
-    let query = 'UPDATE public.movies SET'
-    const datas = []
-    let id = 1
-    if (data.title) {
-      query += ` title=$${id},`
-      datas.push(data.title)
-      id++
-    }
-    if (data.genres) {
-      query += ` genres=$${id},`
-      datas.push(data.genres)
-      id++
-    }
-    if (data.release_date) {
-      query += ` release_date=$${id},`
-      datas.push(data.release_date)
-      id++
-    }
-    if (data.duration) {
-      query += ` duration=$${id},`
-      datas.push(data.duration)
-      id++
-    }
-    if (data.director) {
-      query += ` director=$${id},`
-      datas.push(data.director)
-      id++
-    }
-    if (data.casts) {
-      query += ` casts=$${id},`
-      datas.push(data.casts)
-      id++
-    }
-    if (data.synopsis) {
-      query += ` synopsis=$${id},`
-      datas.push(data.synopsis)
-      id++
-    }
-    if (data.path) {
       const upload = await cloudinary.uploader.upload(data.path, {
         folder: 'tickitz_movie',
         use_filename: true,
         unique_filename: false
       })
-      const img = upload.secure_url
-      query += ` img=$${id},`
-      datas.push(img)
-      id++
+      img = upload.secure_url
     }
-    query += ` updated_at=now() WHERE movie_id=$${id}`
-    datas.push(data.movie_id)
-
-    await db.query(query, datas)
+    await db.query(
+      `UPDATE public.movies
+        SET title=COALESCE(NULLIF($1, ''), title),
+            genres=COALESCE(NULLIF($2, ''), genres),
+            release_date=COALESCE(NULLIF($3, CURRENT_DATE), release_date),
+            duration=COALESCE(NULLIF($4, ''), duration),
+            director=COALESCE(NULLIF($5, ''), director),
+            casts=COALESCE(NULLIF($6, ''), casts),
+            synopsis=COALESCE(NULLIF($7, ''), synopsis),
+            img=COALESCE(NULLIF($8, ''), img),
+            updated_at=now()
+        WHERE movie_id=$9`,
+      [
+        data.title,
+        data.genres,
+        data.release_date,
+        data.duration,
+        data.director,
+        data.casts,
+        data.synopsis,
+        img,
+        data.movie_id
+      ]
+    )
     return 'data berhasil diubah'
   } catch (error) {
     return error

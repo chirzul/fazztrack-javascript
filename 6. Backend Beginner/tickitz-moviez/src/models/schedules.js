@@ -46,48 +46,28 @@ model.getScheduleById = async (data) => {
 
 model.updateSchedule = async (data) => {
   try {
-    let query = 'UPDATE public.schedules SET'
-    const datas = []
-    let id = 1
-    if (data.movie_id) {
-      query += ` movie_id=$${id},`
-      datas.push(data.movie_id)
-      id++
-    }
-    if (data.show_date) {
-      query += ` "show_date"=$${id},`
-      datas.push(data.show_date)
-      id++
-    }
-    if (data.city) {
-      query += ` city=$${id},`
-      datas.push(data.city)
-      id++
-    }
-    if (data.theater) {
-      query += ` theater=$${id},`
-      datas.push(data.theater)
-      id++
-    }
-    if (data.address) {
-      query += ` address=$${id},`
-      datas.push(data.address)
-      id++
-    }
-    if (data.show_time) {
-      query += ` "show_time"=$${id},`
-      datas.push(data.show_time)
-      id++
-    }
-    if (data.price) {
-      query += ` price=$${id},`
-      datas.push(data.price)
-      id++
-    }
-    query += ` updated_at=now() WHERE schedule_id=$${id}`
-    datas.push(data.schedule_id)
-
-    await db.query(query, datas)
+    await db.query(
+      `UPDATE public.schedules
+        SET movie_id=COALESCE(NULLIF($1, ''), movie_id),
+            show_date=COALESCE(NULLIF($2, CURRENT_DATE), show_date),
+            city=COALESCE(NULLIF($3, ''), city),
+            theater=COALESCE(NULLIF($4, ''), theater),
+            address=COALESCE(NULLIF($5, ''), address),
+            show_time=COALESCE(NULLIF($6, ''), show_time),
+            price=COALESCE(NULLIF($7, ''), price),
+            updated_at=now()
+        WHERE schedule_id=$8`,
+      [
+        data.movie_id,
+        data.show_date,
+        data.city,
+        data.theater,
+        data.address,
+        data.show_time,
+        data.price,
+        data.schedule_id
+      ]
+    )
     return 'data berhasil diubah'
   } catch (error) {
     return error

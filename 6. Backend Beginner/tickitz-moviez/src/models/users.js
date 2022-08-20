@@ -62,12 +62,12 @@ model.updateUser = async (data) => {
     await db.query(
       `UPDATE public.users
         SET username=COALESCE(NULLIF($1, ''), username),
-        first_name=COALESCE(NULLIF($2, ''), first_name),
-        last_name=COALESCE(NULLIF($3, ''), last_name),
-        email=COALESCE(NULLIF($4, ''), email),
-        phone=COALESCE(NULLIF($5, ''), phone),
-        "role"=COALESCE(NULLIF($6, ''), "role"),
-        updated_at=now()
+            first_name=COALESCE(NULLIF($2, ''), first_name),
+            last_name=COALESCE(NULLIF($3, ''), last_name),
+            email=COALESCE(NULLIF($4, ''), email),
+            phone=COALESCE(NULLIF($5, ''), phone),
+            "role"=COALESCE(NULLIF($6, ''), "role"),
+            updated_at=now()
         WHERE user_id=$7`,
       [
         data.username,
@@ -87,7 +87,7 @@ model.updateUser = async (data) => {
 
 model.changePassword = async (data) => {
   try {
-    await db.query('UPDATE public.users SET password=$1 WHERE user_id=$2', [
+    await db.query('UPDATE public.users SET "password"=$1 WHERE user_id=$2', [
       data.hashPassword,
       data.user_id
     ])
