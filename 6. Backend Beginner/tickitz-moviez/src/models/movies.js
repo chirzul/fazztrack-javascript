@@ -41,39 +41,15 @@ model.getAllMovies = async (pagination) => {
       queryTemp = format(`${queryTemp} ORDER BY movie_id DESC`)
     }
 
-    if (pagination.page && pagination.limit) {
-      const offset = (pagination.page - 1) * pagination.limit
-      queryTemp = format(
-        `${queryTemp} LIMIT %s OFFSET %s`,
-        pagination.limit,
-        offset
-      )
-    }
+    const offset = (pagination.page - 1) * pagination.limit
+    queryTemp = format(
+      `${queryTemp} LIMIT %s OFFSET %s`,
+      pagination.limit,
+      offset
+    )
+
     const query = await db.query(queryTemp)
 
-    return query.rows
-  } catch (error) {
-    return error
-  }
-}
-
-model.getSortedMovies = async () => {
-  try {
-    const query = await db.query(
-      'SELECT movie_id, img, title, genres, release_date FROM public.movies ORDER BY EXTRACT(YEAR FROM release_date) DESC, title ASC'
-    )
-    return query.rows
-  } catch (error) {
-    return error
-  }
-}
-
-model.getMovieById = async (data) => {
-  try {
-    const query = await db.query(
-      'SELECT * FROM public.movies WHERE movie_id=$1',
-      [data.movie_id]
-    )
     return query.rows
   } catch (error) {
     return error
@@ -99,7 +75,13 @@ model.updateMovie = async (data) => {
       img = await db.query('SELECT * FROM public.movies WHERE movie_id=$1', [
         data.movie_id
       ])
-      img = `tickitz${img.rows[0].img.split('tickitz')[1].split('.png')[0]}`
+      img = `tickitz${
+        img.rows[0].img
+          .split('tickitz')[1]
+          .split('.png')[0]
+          .split('.jpg')[0]
+          .split('.jpeg')[0]
+      }`
       await cloudinary.uploader.destroy(img, (result) => {
         console.log(result)
       })
@@ -140,12 +122,28 @@ model.updateMovie = async (data) => {
   }
 }
 
+model.countRows = async () => {
+  try {
+    const rows = await db.query('SELECT COUNT(movie_id) FROM public.movies')
+    return rows.rows[0].count
+  } catch (error) {
+    return error
+  }
+}
+
 model.deleteMovie = async (data) => {
   try {
     let img = await db.query('SELECT * FROM public.movies WHERE movie_id=$1', [
       data.movie_id
     ])
-    img = `tickitz${img.rows[0].img.split('tickitz')[1].split('.png')[0]}`
+    img = `tickitz${
+      img.rows[0].img
+        .split('tickitz')[1]
+        .split('.png')[0]
+        .split('.jpg')[0]
+        .split('.jpeg')[0]
+    }`
+    console.log(img)
     await cloudinary.uploader.destroy(img, (result) => {
       console.log(result)
     })

@@ -27,12 +27,12 @@ ctrl.login = async (req, res) => {
   try {
     const { username, password } = req.body
     const user = await model.getUser(username)
-    const role = await user[0].role
 
     if (user.length === 0) {
       return response(res, 401, 'user tidak terdaftar', true)
     }
 
+    const role = await user[0].role
     const check = await bcrypt.compare(password, user[0].password)
 
     if (!check) {

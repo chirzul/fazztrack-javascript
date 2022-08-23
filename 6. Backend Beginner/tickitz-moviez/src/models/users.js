@@ -23,10 +23,11 @@ model.addUser = async (data) => {
   }
 }
 
-model.getAllUsers = async () => {
+model.getUserInfo = async (data) => {
   try {
     const query = await db.query(
-      'SELECT * FROM public.users ORDER BY created_at DESC'
+      'SELECT * FROM public.users WHERE username=$1',
+      [data.username]
     )
     return query.rows
   } catch (error) {
@@ -65,17 +66,9 @@ model.updateUser = async (data) => {
             last_name=COALESCE(NULLIF($2, ''), last_name),
             email=COALESCE(NULLIF($3, ''), email),
             phone=COALESCE(NULLIF($4, ''), phone),
-            "role"=COALESCE(NULLIF($5, ''), "role"),
             updated_at=now()
-        WHERE username=$6`,
-      [
-        data.first_name,
-        data.last_name,
-        data.email,
-        data.phone,
-        data.role,
-        data.username
-      ]
+        WHERE username=$5`,
+      [data.first_name, data.last_name, data.email, data.phone, data.username]
     )
     return 'data berhasil diubah'
   } catch (error) {

@@ -22,25 +22,9 @@ ctrl.getAllMovies = async (req, res) => {
       limit: req.query.limit || 5,
       order: req.query.order
     }
+    const rows = await model.countRows()
+    console.log(rows)
     const data = await model.getAllMovies(pagination)
-    return response(res, 200, data)
-  } catch (error) {
-    return response(res, 500, 'Terjadi kesalahan', true)
-  }
-}
-
-ctrl.getSortedMovies = async (req, res) => {
-  try {
-    const data = await model.getSortedMovies()
-    return response(res, 200, data)
-  } catch (error) {
-    return response(res, 500, 'Terjadi kesalahan', true)
-  }
-}
-
-ctrl.getMovieById = async (req, res) => {
-  try {
-    const data = await model.getMovieById(req.params)
     return response(res, 200, data)
   } catch (error) {
     return response(res, 500, 'Terjadi kesalahan', true)
